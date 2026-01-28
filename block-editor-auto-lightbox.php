@@ -3,7 +3,7 @@
  * Plugin Name: Block Editor Auto Lightbox
  * Plugin URI:  https://github.com/juditth/block-editor-auto-lightbox/
  * Description: Automatically adds a lightbox to images in WordPress blocks with support for lazy loading and original image URLs.
- * Version:     1.0.2
+ * Version:     1.0.3
  * Author:      Jitka Klingenbergová
  * Author URI:  https://vyladeny-web.cz/
  * License:     GPL-2.0-or-later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
- * Stable Tag: 1.0.2
+ * Stable Tag: 1.0.3
  */
 
 // Exit if accessed directly
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('BEAL_VERSION', '1.0.2');
+define('BEAL_VERSION', '1.0.3');
 define('BEAL_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('BEAL_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('BEAL_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -110,7 +110,6 @@ class Block_Editor_Auto_Lightbox
             'auto_wp_gallery' => true,
             'block_selector' => '',
             'group_page_images' => true,
-            'gallery_grouping' => true, // Still kept as per logic
             'touch_navigation' => true,
             'loop' => true,
             'autoplay_videos' => true,
@@ -205,14 +204,6 @@ class Block_Editor_Auto_Lightbox
         );
 
         // Grouping Options
-        add_settings_field(
-            'gallery_grouping',
-            esc_html__('Smart Grouping', 'block-editor-auto-lightbox'),
-            array($this, 'checkbox_field_callback'),
-            'block-editor-auto-lightbox',
-            'beal_general_section',
-            array('field' => 'gallery_grouping', 'label' => esc_html__('Group images within the same block/container into a gallery', 'block-editor-auto-lightbox'))
-        );
 
         add_settings_field(
             'group_page_images',
@@ -273,7 +264,6 @@ class Block_Editor_Auto_Lightbox
         $sanitized['auto_wp_image'] = isset($input['auto_wp_image']) ? true : false;
         $sanitized['auto_wp_gallery'] = isset($input['auto_wp_gallery']) ? true : false;
         $sanitized['block_selector'] = sanitize_textarea_field($input['block_selector']);
-        $sanitized['gallery_grouping'] = isset($input['gallery_grouping']) ? true : false;
         $sanitized['group_page_images'] = isset($input['group_page_images']) ? true : false;
         $sanitized['touch_navigation'] = isset($input['touch_navigation']) ? true : false;
         $sanitized['loop'] = isset($input['loop']) ? true : false;
@@ -462,7 +452,6 @@ class Block_Editor_Auto_Lightbox
             'hasAutoWpImage' => isset($options['auto_wp_image']) ? $options['auto_wp_image'] : true,
             'hasAutoWpGallery' => isset($options['auto_wp_gallery']) ? $options['auto_wp_gallery'] : true,
             'blockSelector' => isset($options['block_selector']) ? $options['block_selector'] : '',
-            'galleryGrouping' => isset($options['gallery_grouping']) ? $options['gallery_grouping'] : true,
             'groupPageImages' => isset($options['group_page_images']) ? $options['group_page_images'] : true,
             'touchNavigation' => isset($options['touch_navigation']) ? $options['touch_navigation'] : true,
             'loop' => isset($options['loop']) ? $options['loop'] : true,

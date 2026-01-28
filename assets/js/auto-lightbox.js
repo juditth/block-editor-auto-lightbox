@@ -83,31 +83,42 @@
         return false;
     }
 
+    // Track processed containers and global lightbox
+    const processedContainers = new WeakSet();
+    let globalLightbox = null;
+
     /**
      * Process images and add lightbox functionality
      * 
      * @param {string} blockSelector - CSS selector for target blocks
-     * @param {boolean} galleryGrouping - Whether to group images by block
      * @param {boolean} groupPageImages - Whether to group ALL images on page
      */
-    function processImages(blockSelector, galleryGrouping, groupPageImages) {
+    function processImages(blockSelector, groupPageImages) {
         if (!blockSelector) return;
 
         const selectors = blockSelector.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
-        selectors.forEach((selector, index) => {
+        selectors.forEach((selector, selectorIndex) => {
             const containers = document.querySelectorAll(selector);
 
             containers.forEach((container, containerIndex) => {
-                const images = container.querySelectorAll('img');
-
-                // Determine gallery ID
-                let galleryId;
-                if (groupPageImages) {
-                    galleryId = 'global-gallery';
-                } else {
-                    galleryId = galleryGrouping ? `gallery-${index}-${containerIndex}` : '';
+                // Prevent duplicate processing of the same container
+                if (processedContainers.has(container)) {
+                    return;
                 }
+
+                // Safety: If this container is a wp-block-image (single) BUT it is inside a wp-block-gallery, 
+                // SKIP IT. Let the gallery handle it.
+                if (container.classList.contains('wp-block-image') && container.closest('.wp-block-gallery')) {
+                    return;
+                }
+
+                const images = container.querySelectorAll('img');
+                if (images.length === 0) return;
+
+                // Unique selector class for this block
+                const blockUniqueId = `beal-group-${selectorIndex}-${containerIndex}`;
+                const finalSelectorClass = groupPageImages ? 'beal-global' : blockUniqueId;
 
                 images.forEach((img) => {
                     // Skip excluded images
@@ -120,14 +131,13 @@
                         return;
                     }
 
+                    let link;
                     // Wrap image in a link if not already wrapped
                     if (img.parentElement.tagName !== 'A') {
-                        const link = document.createElement('a');
+                        link = document.createElement('a');
                         link.href = originalUrl;
                         link.classList.add('glightbox');
-                        if (galleryId) {
-                            link.setAttribute('data-gallery', galleryId);
-                        }
+                        link.classList.add(finalSelectorClass);
                         link.setAttribute('data-description', img.alt || '');
                         link.setAttribute('aria-label', img.alt ? 'View larger image: ' + img.alt : 'View larger image');
 
@@ -135,34 +145,64 @@
                         link.appendChild(img);
                     } else {
                         // If already wrapped, ensure it works with lightbox
-                        const parentLink = img.parentElement;
-                        parentLink.classList.add('glightbox');
-                        if (galleryId) {
-                            parentLink.setAttribute('data-gallery', galleryId);
-                        }
+                        link = img.parentElement;
+                        link.classList.add('glightbox');
+                        link.classList.add(finalSelectorClass);
 
                         // Force href to original URL if it points to itself, is empty, or IS NOT an image link (e.g. attachment page)
-                        const cleanHref = parentLink.href.split('?')[0].toLowerCase();
+                        const cleanHref = link.href.split('?')[0].toLowerCase();
                         const isImageLink = /\.(jpeg|jpg|gif|png|webp|bmp|svg)$/i.test(cleanHref);
 
-                        if (!isImageLink || parentLink.href.includes(img.src) || parentLink.href === '') {
-                            parentLink.href = originalUrl;
-                            parentLink.setAttribute('data-type', 'image'); // Hint GLightbox it's an image
+                        if (!isImageLink || link.href.includes(img.src) || link.href === '') {
+                            link.href = originalUrl;
+                            link.setAttribute('data-type', 'image'); // Hint GLightbox it's an image
                         }
 
                         // Add description if not present
-                        if (!parentLink.getAttribute('data-description') && img.alt) {
-                            parentLink.setAttribute('data-description', img.alt);
+                        if (!link.getAttribute('data-description') && img.alt) {
+                            link.setAttribute('data-description', img.alt);
                         }
 
                         // Add accessibility label if missing
-                        if (!parentLink.hasAttribute('aria-label')) {
-                            parentLink.setAttribute('aria-label', img.alt ? 'View larger image: ' + img.alt : 'View larger image');
+                        if (!link.hasAttribute('aria-label')) {
+                            link.setAttribute('aria-label', img.alt ? 'View larger image: ' + img.alt : 'View larger image');
                         }
                     }
                 });
+
+                // Initialize GLightbox for this specific block if not grouping globally
+                if (!groupPageImages) {
+                    GLightbox({
+                        selector: '.' + blockUniqueId,
+                        touchNavigation: bealSettings.touchNavigation,
+                        loop: bealSettings.loop,
+                        autoplayVideos: bealSettings.autoplayVideos,
+                        closeButton: bealSettings.closeButton,
+                        closeOnOutsideClick: bealSettings.closeOnOutsideClick,
+                        preload: bealSettings.preload
+                    });
+                }
+
+                processedContainers.add(container);
             });
         });
+
+        // If global grouping is enabled, initialize/reload the global lightbox
+        if (groupPageImages) {
+            if (!globalLightbox) {
+                globalLightbox = GLightbox({
+                    selector: '.beal-global',
+                    touchNavigation: bealSettings.touchNavigation,
+                    loop: bealSettings.loop,
+                    autoplayVideos: bealSettings.autoplayVideos,
+                    closeButton: bealSettings.closeButton,
+                    closeOnOutsideClick: bealSettings.closeOnOutsideClick,
+                    preload: bealSettings.preload
+                });
+            } else {
+                globalLightbox.reload();
+            }
+        }
     }
 
     /**
@@ -198,28 +238,21 @@
         selectors = [...new Set(selectors)];
         const finalSelectorString = selectors.join(', ');
 
-        // Process images
-        processImages(finalSelectorString, bealSettings.galleryGrouping, bealSettings.groupPageImages);
-
-        // Initialize GLightbox
-        const lightbox = GLightbox({
-            selector: '.glightbox',
-            touchNavigation: bealSettings.touchNavigation,
-            loop: bealSettings.loop,
-            autoplayVideos: bealSettings.autoplayVideos,
-            closeButton: bealSettings.closeButton,
-            closeOnOutsideClick: bealSettings.closeOnOutsideClick,
-            preload: bealSettings.preload
-        });
+        // Process initial images
+        processImages(finalSelectorString, bealSettings.groupPageImages);
 
         // Handle dynamically loaded content (e.g., infinite scroll, AJAX)
         const observer = new MutationObserver(function (mutations) {
+            let shouldReprocess = false;
             mutations.forEach(function (mutation) {
                 if (mutation.addedNodes.length) {
-                    processImages(finalSelectorString, bealSettings.galleryGrouping, bealSettings.groupPageImages);
-                    lightbox.reload();
+                    shouldReprocess = true;
                 }
             });
+
+            if (shouldReprocess) {
+                processImages(finalSelectorString, bealSettings.groupPageImages);
+            }
         });
 
         // Observe the entire document for changes

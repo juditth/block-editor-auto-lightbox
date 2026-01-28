@@ -3,24 +3,23 @@ Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
 Tested up to: 6.9
-Stable Tag: 1.0.2
+Stable Tag: 1.0.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Automatically adds a responsive lightbox to your WordPress block images. Supports galleries and lazy-loading.
+Automatically adds a lightbox to images in WordPress blocks (Image & Gallery). No configuration required - it just works!
 
 == Description ==
 
 Block Editor Auto Lightbox is a lightweight, zero-configuration plugin that automatically adds a beautiful lightbox to your WordPress image and gallery blocks. Built with the powerful GLightbox library.
 
-**Key Features:**
+== Features ==
 
-*   **Zero Configuration:** Works out of the box with standard WordPress blocks (`.wp-block-image`, `.wp-block-gallery`).
 *   **Original Image Detection:** Automatically finds and displays the full-size image, even if you inserted a smaller size.
 *   **Lazy Load Support:** Fully compatible with WordPress native lazy loading.
 *   **Accessibility:** Built with accessibility in mind (ARIA support, keyboard navigation).
-*   **Smart Grouping:** Automatically groups images in the same gallery block. Option to group ALL page images.
+*   **Smart Grouping:** Automatically groups images in galleries while keeping single images isolated. Option to group ALL page images.
 *   **Touch Friendly:** Swipe navigation for mobile devices.
 
 == Installation ==
@@ -35,6 +34,11 @@ Block Editor Auto Lightbox is a lightweight, zero-configuration plugin that auto
 Yes! You can add any CSS selector in the plugin settings to target custom blocks or containers.
 
 == Changelog ==
+
+= 1.0.3 =
+*   Refactored lightbox engine for strict block isolation using per-block GLightbox instances.
+*   Fixed issue where single images were incorrectly grouped with galleries.
+*   Improved compatibility with lazy-loaded images and attachment page links.
 
 = 1.0.2 =
 *   Fixed hanging issue when lightbox opening images linked to attachment pages.
