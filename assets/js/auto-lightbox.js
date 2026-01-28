@@ -141,9 +141,13 @@
                             parentLink.setAttribute('data-gallery', galleryId);
                         }
 
-                        // Force href to original URL if it points to itself or is empty
-                        if (parentLink.href.includes(img.src) || parentLink.href === '') {
+                        // Force href to original URL if it points to itself, is empty, or IS NOT an image link (e.g. attachment page)
+                        const cleanHref = parentLink.href.split('?')[0].toLowerCase();
+                        const isImageLink = /\.(jpeg|jpg|gif|png|webp|bmp|svg)$/i.test(cleanHref);
+
+                        if (!isImageLink || parentLink.href.includes(img.src) || parentLink.href === '') {
                             parentLink.href = originalUrl;
+                            parentLink.setAttribute('data-type', 'image'); // Hint GLightbox it's an image
                         }
 
                         // Add description if not present

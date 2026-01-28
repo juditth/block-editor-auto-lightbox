@@ -3,7 +3,7 @@ Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
 Tested up to: 6.9
-Stable Tag: 1.0.1
+Stable Tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,10 @@ Block Editor Auto Lightbox is a lightweight, zero-configuration plugin that auto
 Yes! You can add any CSS selector in the plugin settings to target custom blocks or containers.
 
 == Changelog ==
+
+= 1.0.2 =
+*   Fixed hanging issue when lightbox opening images linked to attachment pages.
+*   Improved image link detection.
 
 = 1.0.1 =
 *   Added plugin update checker for WP

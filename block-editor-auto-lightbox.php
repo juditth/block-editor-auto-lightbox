@@ -3,7 +3,7 @@
  * Plugin Name: Block Editor Auto Lightbox
  * Plugin URI:  https://github.com/juditth/block-editor-auto-lightbox/
  * Description: Automatically adds a lightbox to images in WordPress blocks with support for lazy loading and original image URLs.
- * Version:     1.0.1
+ * Version:     1.0.2
  * Author:      Jitka Klingenbergová
  * Author URI:  https://vyladeny-web.cz/
  * License:     GPL-2.0-or-later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
- * Stable Tag: 1.0.1
+ * Stable Tag: 1.0.2
  */
 
 // Exit if accessed directly
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('BEAL_VERSION', '1.0.1');
+define('BEAL_VERSION', '1.0.2');
 define('BEAL_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('BEAL_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('BEAL_PLUGIN_BASENAME', plugin_basename(__FILE__));
