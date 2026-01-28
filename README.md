@@ -3,7 +3,7 @@ Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
 Tested up to: 6.9
-Stable Tag: 1.0.0
+Stable Tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,9 @@ Auto Lightbox for Blocks is a lightweight, zero-configuration plugin that automa
 Yes! You can add any CSS selector in the plugin settings to target custom blocks or containers.
 
 == Changelog ==
+
+= 1.0.1 =
+*   Added plugin update checker for WP
 
 = 1.0.0 =
 *   Initial release.
