@@ -1,4 +1,4 @@
-=== Auto Lightbox for Blocks ===
+=== Block Editor Auto Lightbox ===
 Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
@@ -12,7 +12,7 @@ Automatically adds a responsive lightbox to your WordPress block images. Support
 
 == Description ==
 
-Auto Lightbox for Blocks is a lightweight, zero-configuration plugin that automatically adds a beautiful lightbox to your WordPress image and gallery blocks. Built with the powerful GLightbox library.
+Block Editor Auto Lightbox is a lightweight, zero-configuration plugin that automatically adds a beautiful lightbox to your WordPress image and gallery blocks. Built with the powerful GLightbox library.
 
 **Key Features:**
 
@@ -25,7 +25,7 @@ Auto Lightbox for Blocks is a lightweight, zero-configuration plugin that automa
 
 == Installation ==
 
-1.  Upload the plugin files to the `/wp-content/plugins/auto-lightbox-for-blocks` directory, or install the plugin through the WordPress plugins screen.
+1.  Upload the plugin files to the `/wp-content/plugins/block-editor-auto-lightbox` directory, or install the plugin through the WordPress plugins screen.
 2.  Activate the plugin through the 'Plugins' screen in WordPress.
 3.  Navigate to **Settings -> Auto Lightbox** to configure options (optional).
 

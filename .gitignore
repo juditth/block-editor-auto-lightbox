@@ -1,0 +1,28 @@
+# WordPress
+/wp-config.php
+/wp-content/*
+!/wp-content/plugins/
+/wp-content/plugins/*
+!/wp-content/plugins/-auto-lightbox/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+package-lock.json
+package.json
+gulpfile.js
+
+# Build
+dist/
+*.log
+
+*.zip

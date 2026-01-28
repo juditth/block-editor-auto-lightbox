@@ -1,0 +1,128 @@
+/**
+ * Admin Styles for Auto Lightbox for Blocks
+ *
+ * @package Block_Editor_Auto_Lightbox
+ * @since 1.0.0
+ */
+
+.beal-settings-wrap {
+    max-width: 1000px;
+}
+
+.beal-settings-wrap h1 {
+    margin-bottom: 20px;
+}
+
+.beal-settings-wrap form {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    margin-bottom: 20px;
+}
+
+.beal-settings-wrap .form-table th {
+    width: 200px;
+    padding: 15px 10px 15px 0;
+}
+
+.beal-settings-wrap .form-table td {
+    padding: 15px 10px;
+}
+
+.beal-info-box {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    border-left: 4px solid #2271b1;
+}
+
+.beal-info-box h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.beal-info-box h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.beal-info-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.beal-info-box ul li {
+    padding: 5px 0;
+    color: #50575e;
+}
+
+.beal-info-box code {
+    display: block;
+    background: #f6f7f7;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    font-size: 13px;
+    overflow-x: auto;
+}
+
+.beal-info-box p {
+    color: #50575e;
+    line-height: 1.6;
+}
+
+/* Settings sections */
+.beal-settings-wrap h2 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dcdcde;
+}
+
+/* Input fields */
+.beal-settings-wrap input[type="text"].regular-text {
+    width: 100%;
+    max-width: 500px;
+}
+
+.beal-settings-wrap input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Description text */
+.beal-settings-wrap .description {
+    color: #646970;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Submit button */
+.beal-settings-wrap .submit {
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Success message */
+.beal-settings-wrap .notice {
+    margin: 20px 0;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+
+    .beal-settings-wrap .form-table th,
+    .beal-settings-wrap .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .beal-settings-wrap .form-table th {
+        padding-bottom: 5px;
+    }
+}
