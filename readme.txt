@@ -3,7 +3,7 @@ Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
 Tested up to: 6.9
-Stable Tag: 1.0.3
+Stable Tag: 1.0.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,12 @@ Block Editor Auto Lightbox is a lightweight, zero-configuration plugin that auto
 Yes! You can add any CSS selector in the plugin settings to target custom blocks or containers.
 
 == Changelog ==
+
+= 1.0.4 =
+*   Fixed settings persistence issue where settings would disappear after plugin updates.
+*   Added version tracking and automatic settings migration.
+*   Changed default for "Group All Page Images" to OFF (unchecked) for better out-of-box experience.
+*   Settings now properly merge with defaults on every page load.
 
 = 1.0.3 =
 *   Refactored lightbox engine for strict block isolation using per-block GLightbox instances.

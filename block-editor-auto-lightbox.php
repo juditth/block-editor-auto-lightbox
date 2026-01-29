@@ -3,7 +3,7 @@
  * Plugin Name: Block Editor Auto Lightbox
  * Plugin URI:  https://github.com/juditth/block-editor-auto-lightbox/
  * Description: Automatically adds a lightbox to images in WordPress blocks with support for lazy loading and original image URLs.
- * Version:     1.0.3
+ * Version:     1.0.4
  * Author:      Jitka Klingenbergová
  * Author URI:  https://vyladeny-web.cz/
  * License:     GPL-2.0-or-later
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
- * Stable Tag: 1.0.3
+ * Stable Tag: 1.0.4
  */
 
 // Exit if accessed directly
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('BEAL_VERSION', '1.0.3');
+define('BEAL_VERSION', '1.0.4');
 define('BEAL_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('BEAL_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('BEAL_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -67,6 +67,9 @@ class Block_Editor_Auto_Lightbox
     {
         $this->init_hooks();
         $this->load_dependencies();
+
+        // Ensure settings are always up to date
+        add_action('plugins_loaded', array($this, 'maybe_upgrade_settings'));
     }
 
     /**
@@ -98,18 +101,18 @@ class Block_Editor_Auto_Lightbox
         require_once BEAL_PLUGIN_DIR . 'includes/class-lightbox-handler.php';
     }
 
+
     /**
-     * Plugin activation
+     * Get default settings
      */
-    public function activate()
+    private function get_default_settings()
     {
-        // Set default options
-        $default_options = array(
+        return array(
             'enabled' => true,
             'auto_wp_image' => true,
             'auto_wp_gallery' => true,
             'block_selector' => '',
-            'group_page_images' => true,
+            'group_page_images' => false,
             'touch_navigation' => true,
             'loop' => true,
             'autoplay_videos' => true,
@@ -117,9 +120,37 @@ class Block_Editor_Auto_Lightbox
             'close_on_outside_click' => true,
             'preload' => true,
         );
-
-        add_option('beal_settings', $default_options);
     }
+
+    /**
+     * Plugin activation
+     */
+    public function activate()
+    {
+        $this->maybe_upgrade_settings();
+    }
+
+    /**
+     * Check and upgrade settings if needed
+     */
+    private function maybe_upgrade_settings()
+    {
+        $current_version = get_option('beal_version', '0.0.0');
+        $defaults = $this->get_default_settings();
+
+        // Get existing settings or empty array
+        $existing_settings = get_option('beal_settings', array());
+
+        // Merge with defaults (existing values take precedence)
+        $updated_settings = array_merge($defaults, is_array($existing_settings) ? $existing_settings : array());
+
+        // Update settings
+        update_option('beal_settings', $updated_settings);
+
+        // Update version
+        update_option('beal_version', BEAL_VERSION);
+    }
+
 
     /**
      * Plugin deactivation
@@ -414,10 +445,14 @@ class Block_Editor_Auto_Lightbox
      */
     public function enqueue_frontend_assets()
     {
-        $options = get_option('beal_settings');
+        $defaults = $this->get_default_settings();
+        $options = get_option('beal_settings', array());
+
+        // Merge with defaults to ensure all values exist
+        $options = array_merge($defaults, is_array($options) ? $options : array());
 
         // Check if lightbox is enabled
-        if (!isset($options['enabled']) || !$options['enabled']) {
+        if (!$options['enabled']) {
             return;
         }
 
@@ -447,18 +482,18 @@ class Block_Editor_Auto_Lightbox
             true
         );
 
-        // Pass settings to JavaScript
+        // Pass settings to JavaScript (options already merged with defaults)
         wp_localize_script('beal-auto-lightbox', 'bealSettings', array(
-            'hasAutoWpImage' => isset($options['auto_wp_image']) ? $options['auto_wp_image'] : true,
-            'hasAutoWpGallery' => isset($options['auto_wp_gallery']) ? $options['auto_wp_gallery'] : true,
-            'blockSelector' => isset($options['block_selector']) ? $options['block_selector'] : '',
-            'groupPageImages' => isset($options['group_page_images']) ? $options['group_page_images'] : true,
-            'touchNavigation' => isset($options['touch_navigation']) ? $options['touch_navigation'] : true,
-            'loop' => isset($options['loop']) ? $options['loop'] : true,
-            'autoplayVideos' => isset($options['autoplay_videos']) ? $options['autoplay_videos'] : true,
-            'closeButton' => isset($options['close_button']) ? $options['close_button'] : true,
-            'closeOnOutsideClick' => isset($options['close_on_outside_click']) ? $options['close_on_outside_click'] : true,
-            'preload' => isset($options['preload']) ? $options['preload'] : true,
+            'hasAutoWpImage' => $options['auto_wp_image'],
+            'hasAutoWpGallery' => $options['auto_wp_gallery'],
+            'blockSelector' => $options['block_selector'],
+            'groupPageImages' => $options['group_page_images'],
+            'touchNavigation' => $options['touch_navigation'],
+            'loop' => $options['loop'],
+            'autoplayVideos' => $options['autoplay_videos'],
+            'closeButton' => $options['close_button'],
+            'closeOnOutsideClick' => $options['close_on_outside_click'],
+            'preload' => $options['preload'],
         ));
     }
 
