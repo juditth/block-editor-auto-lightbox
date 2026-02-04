@@ -1,0 +1,4 @@
+/* Hide lightbox captions/descriptions completely */
+.gslide-description {
+    display: none !important;
+}

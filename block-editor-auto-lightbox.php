@@ -464,6 +464,14 @@ class Block_Editor_Auto_Lightbox
             '3.2.0'
         );
 
+        // Enqueue custom CSS to hide descriptions
+        wp_enqueue_style(
+            'beal-custom-lightbox',
+            BEAL_PLUGIN_URL . 'assets/css/custom-lightbox.css',
+            array('glightbox'),
+            BEAL_VERSION
+        );
+
         // Enqueue GLightbox JS
         wp_enqueue_script(
             'glightbox',
