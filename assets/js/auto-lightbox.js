@@ -179,7 +179,8 @@
                         autoplayVideos: bealSettings.autoplayVideos,
                         closeButton: bealSettings.closeButton,
                         closeOnOutsideClick: bealSettings.closeOnOutsideClick,
-                        preload: bealSettings.preload
+                        preload: bealSettings.preload,
+                        descPosition: false
                     });
                 }
 
@@ -197,7 +198,8 @@
                     autoplayVideos: bealSettings.autoplayVideos,
                     closeButton: bealSettings.closeButton,
                     closeOnOutsideClick: bealSettings.closeOnOutsideClick,
-                    preload: bealSettings.preload
+                    preload: bealSettings.preload,
+                    descPosition: false
                 });
             } else {
                 globalLightbox.reload();
