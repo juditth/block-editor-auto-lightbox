@@ -3,7 +3,7 @@ Contributors: Jitka Klingenbergová
 Tags: lightbox, gallery, blocks, image, glightbox
 Requires at least: 5.8
 Tested up to: 6.9
-Stable Tag: 1.0.1
+Stable Tag: 1.0.8
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,33 @@ Auto Lightbox for Blocks is a lightweight, zero-configuration plugin that automa
 Yes! You can add any CSS selector in the plugin settings to target custom blocks or containers.
 
 == Changelog ==
+
+= 1.0.8 =
+*   Fix release version to udpate plugin properly
+
+= 1.0.7 =
+*   Fix visible caption
+
+= 1.0.6 =
+*   Disabled captions/descriptions in lightbox view.
+
+= 1.0.5 =
+*   Switched to custom update server to avoid GitHub API rate limits.
+
+= 1.0.4 =
+*   Fixed settings persistence issue where settings would disappear after plugin updates.
+*   Added version tracking and automatic settings migration.
+*   Changed default for "Group All Page Images" to OFF (unchecked) for better out-of-box experience.
+*   Settings now properly merge with defaults on every page load.
+
+= 1.0.3 =
+*   Refactored lightbox engine for strict block isolation using per-block GLightbox instances.
+*   Fixed issue where single images were incorrectly grouped with galleries.
+*   Improved compatibility with lazy-loaded images and attachment page links.
+
+= 1.0.2 =
+*   Fixed hanging issue when lightbox opening images linked to attachment pages.
+*   Improved image link detection.
 
 = 1.0.1 =
 *   Added plugin update checker for WP
