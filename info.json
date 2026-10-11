@@ -1,0 +1,12 @@
+{
+    "name": "Block Editor Auto Lightbox",
+    "version": "1.0.8",
+    "download_url": "https://vyladeny-web.cz/plugins/block-editor-auto-lightbox/block-editor-auto-lightbox-1.0.8.zip",
+    "requires": "5.8",
+    "tested": "6.9",
+    "last_updated": "2026-03-02 09:00:00",
+    "sections": {
+        "description": "Automatically put Gutenberg images to lightbox.",
+        "changelog": "<h4>1.0.8</h4><ul><li>Fix version number to download next version properly</li></ul><h4>1.0.7</h4><ul><li>Fix visible description</li></ul>"
+    }
+}
